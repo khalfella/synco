@@ -4,6 +4,7 @@ import mailbox
 import os
 import stat
 import time
+import base64
 
 from email import utils
 
@@ -113,8 +114,7 @@ def sync_fdir_to_mdir(files, fdir, mdir):
 
         with open(filepath, 'rb') as f:
             data = f.read()
-            data = data.decode(encoding="ascii", errors="surrogateescape")
-            msg.set_payload(data)
+            msg.set_payload(base64.b64encode(data))
 
         mdir.add(msg)
     mdir.flush()
@@ -130,8 +130,7 @@ def sync_mdir_to_fdir(files, fdir, mdir, mdir_contents):
         with open(filepath, 'wb') as f:
             msg_key = msg_entry[MSG_KEY]
             data = mdir[msg_key].get_payload()
-            data = data.encode(errors="surrogateescape")
-            f.write(data)
+            f.write(base64.b64decode(data))
             f.flush()
 
         os.utime(filepath, (msg_entry[MSG_MTIME_HDR], msg_entry[MSG_MTIME_HDR]))
