@@ -16,9 +16,9 @@ from email import utils
 # a docker container.
 #
 
-DIRPATH = '/home/khalfella/synco/fsdir'
+DIRPATH = '/fsdir'
 
-MAILBOXPATH = '/home/khalfella/Mail/gmail/Synco'
+MAILBOXPATH = '/mdir'
 MAILBOXCREATE = True
 
 
